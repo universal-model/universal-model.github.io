@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="cache-control" content="Private" />
-    <meta http-equiv="last-modified" content="Sun, 09 Feb 2020 00:00:00 GMT " />
+    <meta http-equiv="last-modified" content="Mon, 10 Feb 2020 17:00:00 GMT " />
     <meta http-equiv="expires" content="Tue, 01 Feb 2022 00:00:00 GMT" />
     <meta charset="UTF-8" />
     <meta name="description" content="Universal Model for Angular, React, Vue and Svelte" />
@@ -356,7 +356,36 @@
         Universal model provides unified state management:
         store, states, actions, selectors and services are the same for every UI framework, only view parts differ.
       </div>
-      <h2>Store</h2>
+      <h2>1. Create initial state</h2>
+      <div class="codeBlock">
+        <pre><code class="orange">export interface Todo {
+  id: number;
+  name: string;
+  isDone: boolean;
+}
+
+export default {
+  todos: [] as Todo[],
+  shouldShowOnlyUnDoneTodos: false,
+  isFetchingTodos: false,
+  hasTodosFetchFailure: false
+};
+</code></pre>
+      </div>
+      <h2>2. Create state selectors</h2>
+      <div class="codeBlock">
+        <pre><code class="orange">const createTodoListStateSelectors = &lt;T extends State&gt;() =&gt; ({
+  shownTodos: (state: T) =&gt;
+    state.todosState.todos.filter(
+      (todo: Todo) =&gt;
+        (state.todosState.shouldShowOnlyUnDoneTodos &amp;&amp; !todo.isDone) ||
+        !state.todosState.shouldShowOnlyUnDoneTodos
+    ),
+  todoCount: (state: T) =&gt; state.todosState.todos.length,
+  unDoneTodoCount: (state: T) =&gt; state.todosState.todos.filter((todo: Todo) =&gt; !todo.isDone).length
+});</code></pre>
+      </div>
+      <h2>3. Create a store (using initial states and selectors)</h2>
       <div class="codeBlock">
         <pre><code class="orange">const initialState = {
   todosState: createSubState(initialTodoListState)
@@ -372,34 +401,7 @@ const selectors = combineSelectors&lt;State, typeof todoListStateSelectors&gt;(
 
 export default createStore&lt;State, typeof selectors&gt;(initialState, selectors);</code></pre>
       </div>
-      <h2>State</h2>
-      <div class="codeBlock">
-        <pre><code class="orange">export interface Todo {
-  name: string;
-  isDone: boolean;
-}
-
-export default {
-  todos: [] as Todo[],
-  isFetchingTodos: false,
-  hasTodosFetchFailure: false
-};
-</code></pre>
-      </div>
-      <h2>Selectors</h2>
-      <div class="codeBlock">
-        <pre><code class="orange">const createTodoListStateSelectors = &lt;T extends State&gt;() =&gt; ({
-  shownTodos: (state: T) =&gt;
-    state.todosState.todos.filter(
-      (todo: Todo) =&gt;
-        (state.todosState.shouldShowOnlyUnDoneTodos &amp;&amp; !todo.isDone) ||
-        !state.todosState.shouldShowOnlyUnDoneTodos
-    ),
-  todoCount: (state: T) =&gt; state.todosState.todos.length,
-  unDoneTodoCount: (state: T) =&gt; state.todosState.todos.filter((todo: Todo) =&gt; !todo.isDone).length
-});</code></pre>
-      </div>
-      <h2>Actions</h2>
+      <h2>4. Create some actions</h2>
       <div class="codeBlock">
         <pre><code class="orange">export async function fetchTodos(): Promise&lt;void&gt; {
   const { todosState } = store.getState();
@@ -428,7 +430,7 @@ export function toggleIsDoneTodo(todo: Todo): void {
 }</code></pre>
       </div>
       <div id="angularContent">
-        <h2>View</h2>
+        <h2>5. Create a view (Angular)</h2>
         <div class="codeBlock">
           <pre><code class="lightGreen">@Component({
   selector: 'app-todo-list-view',
@@ -481,7 +483,7 @@ export class TodoListComponent implements OnInit {
         </ul>
       </div>
       <div style="display: none" id="reactContent">
-        <h2>View</h2>
+        <h2>5. Create a view (React)</h2>
         <div class="codeBlock">
           <pre><code class="pink">const TodoListView = () =&gt; {
   const [{ todosState }, { shownTodos }] = store.getStateAndSelectors();
@@ -539,7 +541,7 @@ export class TodoListComponent implements OnInit {
         </ul>
       </div>
       <div style="display: none" id="svelteContent">
-        <h2>View</h2>
+        <h2>5. Create a view (Svelte)</h2>
         <div class="codeBlock">
           <pre><code class="yellow">&lt;script&gt;
   const [todosState] = store.useState('todos', [store.getState().todosState]);
@@ -588,7 +590,7 @@ export class TodoListComponent implements OnInit {
         </ul>
       </div>
       <div style="display: none" id="vueContent">
-        <h2>View</h2>
+        <h2>5. Create a view (Vue)</h2>
         <div class="codeBlock">
           <pre><code class="green">&lt;template&gt;
   &lt;div&gt;
