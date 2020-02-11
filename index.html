@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="cache-control" content="Private" />
-    <meta http-equiv="last-modified" content="Mon, 10 Feb 2020 17:00:00 GMT " />
+    <meta http-equiv="last-modified" content="Tue, 11 Feb 2020 16:00:00 GMT " />
     <meta http-equiv="expires" content="Tue, 01 Feb 2022 00:00:00 GMT" />
     <meta charset="UTF-8" />
     <meta name="description" content="Universal Model for Angular, React, Vue and Svelte" />
@@ -28,21 +28,32 @@
       gtag('config', 'UA-146821419-6');
     </script>
     <title>Universal Model | universal-model</title>
-    <link href="https://fonts.googleapis.com/css?family=Red+Hat+Display:500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Red+Hat+Display:400,500&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/066699e1d2.js" crossorigin="anonymous"></script>
     <style>
       body {
+        width: 1024px;
         color: white;
-        margin: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      @media only screen and (min-width: 1280px) {
+        body {
+          width: 1280px;
+        }
       }
 
       .backgroundImage {
         background-image: url('shutterstock_315351299.jpg');
         background-size: cover;
         position: fixed;
-        height: 100vh;
-        width: 100vw;
+        height: 100%;
+        width: 100%;
         z-index: -2;
+        left: 0;
       }
 
       a {
@@ -59,11 +70,12 @@
       }
 
       .background {
-        background-color: rgba(30, 30, 30, 0.4);
+        background-color: rgba(1, 1, 1, 0.68);
         position: fixed;
         height: 100%;
         width: 100%;
         z-index: -1;
+        left: 0;
       }
 
       header {
@@ -123,19 +135,7 @@
       }
 
       .content {
-        width: 1024px;
-        margin-left: auto;
-        margin-right: auto;
         margin-top: 100px;
-      }
-
-      @media only screen and (min-width: 1280px) {
-        .content {
-          width: 1280px;
-          margin-left: auto;
-          margin-right: auto;
-          margin-top: 100px;
-        }
       }
 
       .tabs {
@@ -167,14 +167,13 @@
         color: white;
         font-family: 'Red Hat Display', sans-serif;
         font-size: 20px;
-        font-weight: bold;
       }
 
       .codeBlock {
         border: 1px white solid;
         border-radius: 10px;
         color: white;
-        background-color: rgba(20, 20, 20, 0.7);
+        background-color: rgba(5, 5, 5, 0.7);
         margin-bottom: 50px;
       }
 
@@ -216,7 +215,6 @@
         color: white;
         font-family: 'Red Hat Display', sans-serif;
         font-size: 20px;
-        font-weight: bold;
         display: block;
         list-style-type: disc;
         margin-bottom: 50px;
