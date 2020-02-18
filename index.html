@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="cache-control" content="Private" />
-    <meta http-equiv="last-modified" content="Tue, 11 Feb 2020 18:45:00 GMT " />
+    <meta http-equiv="last-modified" content="Tue, 18 Feb 2020 07:30:00 GMT " />
     <meta http-equiv="expires" content="Tue, 01 Feb 2022 00:00:00 GMT" />
     <meta charset="UTF-8" />
     <meta name="description" content="Universal Model for Angular, React, Vue and Svelte" />
@@ -28,8 +28,11 @@
       gtag('config', 'UA-146821419-6');
     </script>
     <title>Universal Model | universal-model</title>
+    <link href="css/prism.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Red+Hat+Display:400,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/fontello.css">
+    <script src="js/prism.js"></script>
     <style>
       body {
         width: 1024px;
@@ -182,6 +185,7 @@
       }
 
       code {
+        font-family: "Roboto Mono", monospace !important;
         font-size: 15.3px;
       }
 
@@ -356,7 +360,7 @@
       </div>
       <h2>1. Create initial state</h2>
       <div class="codeBlock">
-        <pre><code class="orange">export interface Todo {
+        <pre><code class="language-typescript">export interface Todo {
   id: number;
   name: string;
   isDone: boolean;
@@ -372,7 +376,7 @@ export default {
       </div>
       <h2>2. Create state selectors</h2>
       <div class="codeBlock">
-        <pre><code class="orange">const createTodoListStateSelectors = &lt;T extends State&gt;() =&gt; ({
+        <pre><code class="language-typescript">const createTodoListStateSelectors = &lt;T extends State&gt;() =&gt; ({
   shownTodos: (state: T) =&gt;
     state.todosState.todos.filter(
       (todo: Todo) =&gt;
@@ -385,7 +389,7 @@ export default {
       </div>
       <h2>3. Create a store (using initial states and selectors)</h2>
       <div class="codeBlock">
-        <pre><code class="orange">const initialState = {
+        <pre><code class="language-typescript">const initialState = {
   todosState: createSubState(initialTodoListState)
 };
 
@@ -401,7 +405,7 @@ export default createStore&lt;State, typeof selectors&gt;(initialState, selector
       </div>
       <h2>4. Create some actions</h2>
       <div class="codeBlock">
-        <pre><code class="orange">export async function fetchTodos(): Promise&lt;void&gt; {
+        <pre><code class="language-typescript">export async function fetchTodos(): Promise&lt;void&gt; {
   const { todosState } = store.getState();
 
   todosState.isFetchingTodos = true;
@@ -430,7 +434,7 @@ export function toggleIsDoneTodo(todo: Todo): void {
       <div id="angularContent">
         <h2>5. Create a view (Angular)</h2>
         <div class="codeBlock">
-          <pre><code class="lightGreen">@Component({
+          <pre><code class="language-typescript">@Component({
   selector: 'app-todo-list-view',
   template: `
     &lt;div&gt;
@@ -483,7 +487,7 @@ export class TodoListComponent implements OnInit {
       <div style="display: none" id="reactContent">
         <h2>5. Create a view (React)</h2>
         <div class="codeBlock">
-          <pre><code class="pink">const TodoListView = () =&gt; {
+          <pre><code class="language-tsx">const TodoListView = () =&gt; {
   const [{ todosState }, { shownTodos }] = store.getStateAndSelectors();
   store.useStateAndSelectors([todosState], [shownTodos]);
 
@@ -541,7 +545,7 @@ export class TodoListComponent implements OnInit {
       <div style="display: none" id="svelteContent">
         <h2>5. Create a view (Svelte)</h2>
         <div class="codeBlock">
-          <pre><code class="yellow">&lt;script&gt;
+          <pre><code class="language-typescript">&lt;script&gt;
   const [todosState] = store.useState('todos', [store.getState().todosState]);
   const [shownTodos] = store.useSelectors('todos', [store.getSelectors().shownTodos]);
 
@@ -590,7 +594,7 @@ export class TodoListComponent implements OnInit {
       <div style="display: none" id="vueContent">
         <h2>5. Create a view (Vue)</h2>
         <div class="codeBlock">
-          <pre><code class="green">&lt;template&gt;
+          <pre><code class="language-typescript">&lt;template&gt;
   &lt;div&gt;
     &lt;div v-if=&quot;todosState.isFetchingTodos&quot;&gt;Fetching todos...&lt;/div&gt;
     &lt;div v-else-if=&quot;todosState.hasTodosFetchFailure&quot;&gt;Failed to fetch todos&lt;/div&gt;
